@@ -1,16 +1,13 @@
-FROM python:3-alpine
+FROM python:3
 
-RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-COPY requirements.txt /usr/src/app/
+COPY . .
 
-RUN pip3 install --no-cache-dir -r requirements.txt
-
-COPY . /usr/src/app
+RUN python3 -m venv venv
+RUN ./venv/bin/pip3 install --no-cache-dir -r requirements.txt
 
 EXPOSE 8080
 
-ENTRYPOINT ["python3"]
+CMD ["./venv/bin/python3", "-m", "swagger_server"]
 
-CMD ["-m", "swagger_server"]
